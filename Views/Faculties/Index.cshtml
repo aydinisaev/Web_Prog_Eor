@@ -1,0 +1,30 @@
+﻿@model IEnumerable<WebApplication2.Models.Faculty>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<body>
+    <h3>Факультеты</h3>
+    <table>
+        @foreach (var faculty in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => faculty.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@faculty.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@faculty.Id">Delete</a>
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</body>

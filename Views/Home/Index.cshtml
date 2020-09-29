@@ -1,0 +1,127 @@
+﻿@using WebApplication2.ViewModel
+@using WebApplication2.Models
+@model IndexViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<link rel="stylesheet" href="~/js/site.js" />
+<link rel="stylesheet" href="~/lib/jquery/jquery.min.js" />
+<link rel="stylesheet" href="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js" />
+<style>
+    .asd {
+        background: #f0f0f0;
+        padding: 12px;
+        /*width: 15em;*/
+        /*float: left;*/
+        background-color: white;
+        /*color: white;*/
+    }
+
+    details summary::-webkit-details-marker {
+        display: none;
+    }
+
+    details > summary {
+        list-style: none;
+    }
+
+    button {
+        width: 50px;
+        height: 40px;
+    }
+
+    .asider {
+        /*float: right;*/
+        /*width: 25em;*/
+        margin: 5px 0px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        top: 50px;
+    }
+    
+    details {
+        padding: 2px;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-md-4">
+                <aside class="asd">
+                    @foreach (var faculty in Model.Faculties)
+                    {
+                        <details class="btn-light">
+                            <summary><a asp-action="Index" asp-controller="Home" asp-route-id="@faculty.Id"></a>@faculty.Name</summary>
+                            @foreach (var departments in Model.Departments)
+                            {
+                                @if (faculty.Id == departments.FacultyId)
+                                {
+                                    <details>
+                                        <summary>
+                                            <ul>
+                                                <tr>
+                                                    <a asp-action="Index" asp-controller="Home" asp-route-id="@departments.Id"></a>
+                                                    @departments.Name
+                                                </tr>
+                                            </ul>
+                                        </summary>
+                                        @foreach (var directions in Model.Directions)
+                                        {
+                                            @if (departments.Id == directions.DepartmentId)
+                                            {
+                                                <details>
+                                                    <summary>
+                                                        <ul>
+                                                            <tr>
+                                                                <a asp-action="Index" asp-controller="Home" asp-route-id="@directions.Id"></a>
+                                                                @directions.Name
+                                                            </tr>
+                                                        </ul>
+                                                    </summary>
+                                                    @foreach (var courses in Model.Courses)
+                                                    {
+                                                        @if (directions.Id == courses.DirectionId)
+                                                        {
+                                                            <details>
+                                                                <summary>
+                                                                    <ul>
+                                                                        <a style="width:5em;" id="rect" asp-action="Index" asp-controller="Home" asp-route-id="@courses.Id">@courses.Name</a>
+                                                                    </ul>
+                                                                </summary>
+                                                            </details>
+                                                        }
+                                                    }
+                                                </details>
+                                            }
+                                        }
+                                    </details>
+                                }
+                            }
+                        </details>
+                    }
+                </aside>
+            </div>
+
+            <div class="col-sm-6 col-md-8">
+                <aside class="asider">
+                    @foreach (var contents in Model.Contents)
+                    {
+                        if (contents.CourseId == ViewBag.ContId)
+                        {
+                            <h5 asp-action="Index" asp-controller="Home" asp-route-id="@contents.Id">Предмет : @contents.Name</h5>
+                            <div asp-action="Index" asp-controller="Home" asp-route-id="@contents.Id">Профиль подготовки : @contents.LevelEdu</div>
+                            <div asp-action="Index" asp-controller="Home" asp-route-id="@contents.Id">Учебный год : @contents.Years</div>
+                            <div asp-action="Index" asp-controller="Home" asp-route-id="@contents.Id">Направление : @contents.Direction.Name</div>
+                            <div asp-action="Index" asp-controller="Home" asp-route-id="@contents.Id">Преподаватель : @contents.Teacher</div>
+                            <a asp-action="Index" asp-controller="Home" asp-route-id="@contents.Id">@contents.Url</a>
+                        }
+                    }
+                </aside>
+            </div>
+        </div>
+    </div>
+    
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+</body>
